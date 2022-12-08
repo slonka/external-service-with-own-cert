@@ -1,0 +1,5 @@
+FROM tarampampam/curl as build
+
+FROM ubuntu:20.04
+
+COPY --from=build /bin/curl /bin/curl
