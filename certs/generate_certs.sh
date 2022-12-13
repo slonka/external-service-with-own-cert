@@ -26,14 +26,14 @@ function gen_client {
   openssl req -new \
     -key "privkey-echo-$1.key" \
     -out "echo-$1.csr" \
-    -subj "/CN=echo-server.default.svc.cluster.local/C=PL/"
+    -subj "/CN=$3/C=PL/"
 
   # Sign
   openssl x509 \
     -req -in "echo-$1.csr" \
-    -extfile <(echo "subjectAltName=URI:spiffe://echo$1") \
-    -CA "root-ca-$1.crt" \
-    -CAkey "root-ca-$1.key" \
+    -extfile <(echo "subjectAltName=DNS:$3") \
+    -CA "root-ca-$2.crt" \
+    -CAkey "root-ca-$2.key" \
     -CAcreateserial \
     -days 99999 \
     -out "echo-$1-signed-by-root-ca-$2.crt"
@@ -41,5 +41,5 @@ function gen_client {
   cat "echo-$1-signed-by-root-ca-$2.crt" > "fullchain-echo-$1.crt"
 }
 
-gen_root_ca 1
-gen_client 1 1
+gen_client 1 1 "echo-server.default.svc.cluster.local"
+# gen_client 1 1 "echo-client.default.svc.cluster.local"
