@@ -41,5 +41,5 @@ function gen_client {
   cat "echo-$1-signed-by-root-ca-$2.crt" > "fullchain-echo-$1.crt"
 }
 
-gen_client 1 1 "echo-server.default.svc.cluster.local"
+# gen_client 1 1 "echo-server.default.svc.cluster.local"
 # gen_client 1 1 "echo-client.default.svc.cluster.local"
